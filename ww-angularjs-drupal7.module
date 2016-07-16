@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function ww_angularjs_drupal7_preprocess_page(&$variables) {
+  if(isset($variables['node']) && $variables['node']->type == 'account') {
+    $scripts = drupal_add_js();
+    $angular_check = false;
+
+    foreach($scripts as $script) {
+      if (strpos($script['data'], 'angular.min.js') != false) {
+        $angular_check = true;
+      }
+    }
+
+    if($angular_check == false) {
+     drupal_add_js(drupal_get_path('module', 'ww_angularjs_drupal7') . '/lib/angular/angular.min.js', array('type' => 'external', 'scope' => 'footer', 'weight' => 30));
+     drupal_add_js(drupal_get_path('module', 'ww_angularjs_drupal7') . '/lib/angular/angular-resource.min.js', array('type' => 'external', 'scope' => 'footer', 'weight' => 31));
+    }
+
+    drupal_add_js(drupal_get_path('module', 'ww_angularjs_drupal7') . '/js/ww_angularjs_drupal7_angular.js', array('type' => 'external', 'scope' => 'footer', 'weight' => 32));
+  }
+}
+
+/***
+ * Implements hook_block_info().
+ * @return array
+ */
+function ww_angularjs_drupal7_block_info() {
+  $blocks = array();
+  $blocks['ww_angularjs_drupal7'] = array(
+    'info' => t('Block AngularJS'),
+  );
+  return $blocks;
+}
+
+/***
+ * Implements hook_block_view().
+ * @return array
+ */
+function ww_angularjs_drupal7_block_view($delta='') {
+  $block = array();
+  switch($delta) {
+    case 'ww_angularjs_drupal7':
+      $variables = array();
+      $block['content'] = theme('ww_angularjs_drupal7', $variables);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ww_angularjs_drupal7_theme() {
+  return array(
+    'ww_angularjs_drupal7' => array(
+        'title' => NULL,
+        'template' => 'templates/ww_angularjs_drupal7',
+    ),
+  );
+}

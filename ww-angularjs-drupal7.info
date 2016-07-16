@@ -1,0 +1,6 @@
+name = Web-Wave AngularJS Drupal 7
+description = Web-Wave custom Module who use AngularJS for Drupal 7.
+core = 7.x
+package = Web-Wave Modules
+files[] = ww-angularjs-drupal7.module
+version = "7.x-1.2"
